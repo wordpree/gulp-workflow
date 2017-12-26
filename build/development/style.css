@@ -3,7 +3,7 @@ html, body {
   padding: 0;
   color: #fff;
 }
-
 html h1, body h1 {
+  font-size: 1.5em;
   display: block;
 }

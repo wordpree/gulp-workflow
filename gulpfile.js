@@ -1,17 +1,23 @@
-var gulp =require('gulp');
-var gulpSass =require('gulp-compass');
-var gulpUglify =require('gulp-uglify');
-var gulpCat =require('gulp-concat');
-
+var gulp       = require('gulp');
+var gulpSass   = require('gulp-compass');
+var gulpUglify = require('gulp-uglify');
+var gulpCat    = require('gulp-concat');
+var gulpRename = require('gulp-rename');
+var gulpCss    = require('gulp-clean-css');
 gulp.task('sass',function(){
-	return gulp.src('build/style.scss')
-	       .pipe(gulpSass({outputStyle:'expanded'}).on('error',gulpSass.logError))
-	       .pipe(sourcemaps.init())
-	       .pipe(sourcemaps.write())
-	       .pipe(gulp.dest('development/'))
+	return gulp.src('preprocess/style.scss')
+	       .pipe(gulpSass({
+	       	 css: 'build/development',
+	       	 sass: 'preprocess',
+	       	 style: 'expanded'
+	       }))
+	       .pipe(gulpCss())
+	       .pipe(gulpRename('style.min.css'))
+	       .pipe(gulp.dest('build/development'))
 });
+
 gulp.task('watch',function(){
-	 gulp.watch('build/*.scss',['sass']);
+	 gulp.watch('preprocess/*.scss',['sass']);
 });
 gulp.task('default',['watch']);
 
