@@ -1,6 +1,6 @@
 ### Workflow##
 node_modules/
-
+package-lock.json
 ### OSX ###
 .DS_Store
 .AppleDouble
