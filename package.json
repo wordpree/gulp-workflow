@@ -3,10 +3,9 @@
   "version": "0.0.1",
   "description": "gulp workflow for online store of yee",
   "main": "index.php",
-  "dependencies": {
-    "gulp": "^3.9.1"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "gulp": "^3.9.1",
     "gulp-clean-css": "^3.9.0",
     "gulp-compass": "^2.1.0",
     "gulp-concat": "^2.6.1",
