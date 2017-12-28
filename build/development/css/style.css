@@ -4,6 +4,9 @@ html, body {
   color: #fff;
 }
 html h1, body h1 {
-  font-size: 1em;
-  display: block;
+  font-size: 2em;
+  color: #012399;
+  border: 5px solid purple;
 }
+
+/*# sourceMappingURL=style.css.map */
