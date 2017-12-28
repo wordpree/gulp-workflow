@@ -1,6 +1,9 @@
 ### Workflow##
 node_modules/
 package-lock.json
+build/development/js/main.js.map
+build/development/css/style.css.map
+build/development/maps/
 ### OSX ###
 .DS_Store
 .AppleDouble
