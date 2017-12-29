@@ -24,6 +24,8 @@ build/development/maps/
 *.tmlanguage.cache
 *.tmPreferences.cache
 *.stTheme.cache
+workflow.sublime-project
+workflow.sublime-workspace
 
 ### WordPress ###
 *.log
