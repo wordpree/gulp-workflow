@@ -1,24 +1,34 @@
-var gulp       = require('gulp');
-var gulpSourcempas =require('gulp-sourcemaps');
-var gulpSass   = require('gulp-compass');
-var gulpJslint   = require('gulp-jslint');
-var gulpUglify = require('gulp-uglify');
-var gulpCat    = require('gulp-concat');
-var gulpRename = require('gulp-rename');
-var gulpCss    = require('gulp-clean-css');
-var livereload = require('gulp-livereload');
+
+var gulp       = require('gulp'),
+    gUtil      = require('gulp-util'),
+    gIf        = require('gulp-if'),
+    Sourcempas =require('gulp-sourcemaps'),
+    gulpSass   = require('gulp-compass'),
+    gulpJslint   = require('gulp-jslint'),
+    gulpUglify = require('gulp-uglify'),
+    gulpCat    = require('gulp-concat'),
+    gulpRename = require('gulp-rename'),
+    livereload = require('gulp-livereload'),
+    styleMode,flag,dir;
+
+ flag = process.env.NODE_ENV
+ if (flag =='development'){
+    styleMode = 'expanded';
+    dir       = 'development';
+ }else{
+    styleMode = 'compressed';
+    dir       = 'production';
+ }
 gulp.task('sass',function(){
 	return gulp.src('source/scss/style.scss')
 	       .pipe(gulpSass({
-	       	 css: 'build/development/css',
 	       	 sass: 'source/scss',
-	       	 style: 'expanded',
+	       	 css:  'build/' + dir + '/css',
+	       	 style: styleMode,
 	       	 sourcemap: 'true'
 	       }))
-	       .pipe(gulpCss())
-	       .pipe(gulpRename('style.min.css'))
-	       .pipe(gulp.dest('build/development/css'))
-	       .pipe(livereload());
+	       .pipe(gulp.dest('build/' + dir + '/css'));
+	       
 });
 
 gulp.task('jsLint',function(){
@@ -29,17 +39,17 @@ gulp.task('jsLint',function(){
 
 gulp.task('js',function(){
 	return gulp.src('source/js/**.js')
-	   .pipe(gulpSourcempas.init())
-	   .pipe(gulpCat('main.js'))
-	   .pipe(gulpUglify())
-	   .pipe(gulpSourcempas.write('../maps'))
-	   .pipe(gulp.dest('build/development/js'));
+	   .pipe(Sourcempas.init())
+	   .pipe(gulpCat('main.js',{newline:'\r\n'}))
+	   .pipe(gIf(flag == 'production',gulpUglify()))
+	   .pipe(gIf(flag == 'production',gulpRename({suffix:'.min'})))
+	   .pipe(Sourcempas.write())
+	   .pipe(gulp.dest('build/' +dir+ '/js'));
 });
 
 gulp.task('watch',function(){
-	 livereload.listen();
 	 gulp.watch(['source/scss/**.scss'],['sass']);
 	 gulp.watch(['source/js/**.js'],['jsLint','js']);
 });
-gulp.task('default',['sass','jsLint','js','watch']);
+gulp.task('default',['jsLint','js','sass','watch']);
 
