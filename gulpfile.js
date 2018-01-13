@@ -27,7 +27,8 @@ gulp.task('sass',function(){
 	       	 style: styleMode,
 	       	 sourcemap: 'true'
 	       }))
-	       .pipe(gulp.dest('build/' + dir + '/css'));
+	       .pipe(gulp.dest('build/' + dir + '/css'))
+	       .pipe(livereload());
 	       
 });
 
@@ -44,10 +45,12 @@ gulp.task('js',function(){
 	   .pipe(gIf(flag == 'production',gulpUglify()))
 	   .pipe(gIf(flag == 'production',gulpRename({suffix:'.min'})))
 	   .pipe(Sourcempas.write())
-	   .pipe(gulp.dest('build/' +dir+ '/js'));
+	   .pipe(gulp.dest('build/' +dir+ '/js'))
+	   .pipe(livereload());
 });
 
 gulp.task('watch',function(){
+	 livereload.listen();
 	 gulp.watch(['source/scss/**.scss'],['sass']);
 	 gulp.watch(['source/js/**.js'],['jsLint','js']);
 });
